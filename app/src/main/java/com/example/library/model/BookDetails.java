@@ -1,39 +1,28 @@
 package com.example.library.model;
 
-public class BookDetails {
-    public final String bookName ;
-    public final String totalPages;
-    public final String issueDate;
-    public final String authorName;
+import androidx.annotation.NonNull;
+import java.io.Serializable;
+
+public class BookDetails extends Book implements Serializable {
+    private String id;
 
     public BookDetails(String bookName, String totalPages, String issueDate, String authorName) {
-        this.bookName = bookName;
-        this.totalPages = totalPages;
-        this.issueDate = issueDate;
-        this.authorName = authorName;
+        super(bookName, totalPages, issueDate, authorName);
     }
 
-
-    public String getBookName() {
-        return bookName;
+    public String getId() {
+        return id;
     }
 
-    public String getTotalPages() {
-        return totalPages;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getIssueDate() {
-        return issueDate;
-    }
-
-    public String getAuthorName() {
-        return authorName;
-    }
-
-
+    @NonNull
     @Override
     public String toString() {
         return "BookDetails{" +
+                "id='" + id + "\'," +
                 "bookName='" + bookName + '\'' +
                 ", totalPages='" + totalPages + '\'' +
                 ", issueDate='" + issueDate + '\'' +

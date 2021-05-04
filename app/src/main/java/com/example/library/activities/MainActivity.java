@@ -30,12 +30,12 @@ public class MainActivity extends AppCompatActivity implements OnBookStoreCardCl
 
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mBinding.recyclerView.setAdapter(mLibraryAdapter);
-
     }
 
     @Override
     public void onBookStoreCardClick(BookDetails bookDetails) {
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
+        intent.putExtra("book", bookDetails);
         startActivity(intent);
     }
 

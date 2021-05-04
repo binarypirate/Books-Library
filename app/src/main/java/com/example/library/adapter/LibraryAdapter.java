@@ -36,7 +36,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryViewHolder> {
     @Override
     public void onBindViewHolder( LibraryViewHolder holder, int position) {
         holder.mBinding.bookStoreCard.setOnClickListener(v -> listener.onBookStoreCardClick(bookDetails.get(position)));
-        holder.mBinding.bookName.setText( bookDetails.get(position).bookName);
+        holder.mBinding.bookName.setText(bookDetails.get(position).bookName);
         holder.mBinding.issueDate.setText(bookDetails.get(position).issueDate);
         holder.mBinding.totalPages.setText(bookDetails.get(position).totalPages);
         holder.mBinding.authorName.setText(bookDetails.get(position).authorName);

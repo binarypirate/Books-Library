@@ -47,8 +47,10 @@ public class LibraryData {
         Cursor cursor = booksRecordDataBase.rawQuery("SELECT * FROM " + DATA_RECORD_TABLE , null);
         List<BookDetails> bookDetails = new ArrayList<>();
         while (cursor.moveToNext()){
-            bookDetails.add(new BookDetails(cursor.getString(1), cursor.getString(2),cursor.getString(3)
-            ,cursor.getString(4)));
+            BookDetails bookDetail = new BookDetails(cursor.getString(1), cursor.getString(2),cursor.getString(3)
+            ,cursor.getString(4));
+            bookDetail.setId(cursor.getString(0));
+            bookDetails.add(bookDetail);
         }
         return bookDetails;
     }
