@@ -29,7 +29,7 @@ public class LibraryData {
         String query = "CREATE TABLE IF NOT EXISTS " + DATA_RECORD_TABLE + "("
                 +id + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 book_name + " VARCHAR(100) NOT NULL," +
-                 total_pages + " VARCHAR(5) NOT NULL, " +
+                total_pages + " VARCHAR(5) NOT NULL, " +
                 author_name + " VARCHAR(100) NOT NULL,"+
                 issue_date + " VARCHAR(15) NOT NULL" + ")";
         booksRecordDataBase.execSQL(query);
@@ -40,8 +40,9 @@ public class LibraryData {
                 + book_name + "," + total_pages + "," + issue_date + "," + author_name + ")" +
                 "VALUES ('"+bookDetails.bookName+"' , '"+bookDetails.totalPages+"' , '"+
                 bookDetails.issueDate+"', '"+bookDetails.authorName+"')";
-            booksRecordDataBase.execSQL(query);
+        booksRecordDataBase.execSQL(query);
     }
+
     public List<BookDetails> getBookDetailsData(){
         Cursor cursor = booksRecordDataBase.rawQuery("SELECT * FROM " + DATA_RECORD_TABLE , null);
         List<BookDetails> bookDetails = new ArrayList<>();

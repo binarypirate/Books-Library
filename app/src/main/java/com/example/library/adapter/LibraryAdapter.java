@@ -3,27 +3,33 @@ package com.example.library.adapter;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.library.R;
 import com.example.library.databinding.BookItemsBinding;
 import com.example.library.model.BookDetails;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryViewHolder> {
 
-    final List<BookDetails> bookDetails;
+    List<BookDetails> bookDetails = new ArrayList<>();
     OnBookStoreCardClickListener listener;
 
-    public LibraryAdapter(List<BookDetails> bookDetails, OnBookStoreCardClickListener listener) {
-        this.bookDetails = bookDetails;
+    public LibraryAdapter(OnBookStoreCardClickListener listener) {
         this.listener = listener;
-
     }
 
+    public void setBooks(List<BookDetails> books) {
+        bookDetails = books;
+        notifyDataSetChanged();
+    }
+
+    @NonNull
     @Override
-    public LibraryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LibraryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new LibraryViewHolder(BookItemsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 

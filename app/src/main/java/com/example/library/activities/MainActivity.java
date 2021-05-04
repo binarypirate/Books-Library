@@ -23,13 +23,10 @@ public class MainActivity extends AppCompatActivity implements OnBookStoreCardCl
         mBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        mBinding.addFloatingBar.setOnClickListener(v ->{
-            Intent intent = new Intent(MainActivity.this, CreateOrUpdateBookActivity.class);
-            startActivity(intent);
-        });
+        mBinding.addFloatingBar.setOnClickListener(v -> startActivity(new Intent(this, CreateOrUpdateBookActivity.class)));
 
         mLibraryData = LibraryData.buildWith(openOrCreateDatabase(LibraryData.LIBRARY_DATA, MODE_PRIVATE, null));
-        mLibraryAdapter = new LibraryAdapter(mLibraryData.getBookDetailsData(), this);
+        mLibraryAdapter = new LibraryAdapter(this);
 
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mBinding.recyclerView.setAdapter(mLibraryAdapter);
@@ -40,6 +37,11 @@ public class MainActivity extends AppCompatActivity implements OnBookStoreCardCl
     public void onBookStoreCardClick(BookDetails bookDetails) {
         Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
         startActivity(intent);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLibraryAdapter.setBooks(mLibraryData.getBookDetailsData());
     }
 }
