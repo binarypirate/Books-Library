@@ -1,7 +1,9 @@
-package com.example.library;
+package com.example.library.util;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.example.library.model.BookDetails;
 
 import java.util.ArrayList;
 import java.util.List;

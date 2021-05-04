@@ -1,6 +1,4 @@
-package com.example.library;
-
-import android.view.View;
+package com.example.library.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;

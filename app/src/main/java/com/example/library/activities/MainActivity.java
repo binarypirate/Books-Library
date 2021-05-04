@@ -1,17 +1,18 @@
-package com.example.library;
+package com.example.library.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 
+import com.example.library.model.BookDetails;
+import com.example.library.adapter.LibraryAdapter;
+import com.example.library.util.LibraryData;
+import com.example.library.adapter.OnBookStoreCardClickListener;
 import com.example.library.databinding.ActivityMainBinding;
 
-import java.util.ArrayList;
-
-public class MainActivity extends AppCompatActivity implements OnBookStoreCardClickListener{
+public class MainActivity extends AppCompatActivity implements OnBookStoreCardClickListener {
     ActivityMainBinding mBinding;
     LibraryAdapter mLibraryAdapter;
     LibraryData mLibraryData;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements OnBookStoreCardCl
         setContentView(mBinding.getRoot());
 
         mBinding.addFloatingBar.setOnClickListener(v ->{
-            Intent intent = new Intent(MainActivity.this,DashBoard.class);
+            Intent intent = new Intent(MainActivity.this, CreateOrUpdateBookActivity.class);
             startActivity(intent);
         });
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements OnBookStoreCardCl
 
     @Override
     public void onBookStoreCardClick(BookDetails bookDetails) {
-        Intent intent = new Intent(MainActivity.this,DetailsActivity.class);
+        Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
         startActivity(intent);
 
     }

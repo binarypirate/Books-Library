@@ -1,20 +1,21 @@
-package com.example.library;
+package com.example.library.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.library.databinding.ActivityDashBoardBinding;
-import com.example.library.databinding.ActivityMainBinding;
+import com.example.library.databinding.ActivityCreateOrUpdateBookBinding;
+import com.example.library.model.BookDetails;
+import com.example.library.util.LibraryData;
 
-public class DashBoard extends AppCompatActivity {
-    ActivityDashBoardBinding mBinding;
+public class CreateOrUpdateBookActivity extends AppCompatActivity {
+    ActivityCreateOrUpdateBookBinding mBinding;
     LibraryData mLibraryData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = ActivityDashBoardBinding.inflate(getLayoutInflater());
+        mBinding = ActivityCreateOrUpdateBookBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
         mLibraryData = LibraryData.buildWith(openOrCreateDatabase(LibraryData.LIBRARY_DATA, MODE_PRIVATE, null));

@@ -1,11 +1,13 @@
-package com.example.library;
+package com.example.library.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.library.R;
 import com.example.library.databinding.BookItemsBinding;
+import com.example.library.model.BookDetails;
 
 import java.util.List;
 
