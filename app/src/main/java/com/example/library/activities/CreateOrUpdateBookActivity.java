@@ -3,6 +3,7 @@ package com.example.library.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.library.databinding.ActivityCreateOrUpdateBookBinding;
 import com.example.library.model.BookDetails;
@@ -19,8 +20,9 @@ public class CreateOrUpdateBookActivity extends AppCompatActivity {
         setContentView(mBinding.getRoot());
 
         mLibraryData = LibraryData.buildWith(openOrCreateDatabase(LibraryData.LIBRARY_DATA, MODE_PRIVATE, null));
+        BookDetails book = (BookDetails) getIntent().getSerializableExtra("book");
 
-        mBinding.updateBtn.setOnClickListener(v -> {
+        mBinding.saveBtn.setOnClickListener(v -> {
             String name = mBinding.updateAuthorName.getText().toString().trim();
             String authorName = mBinding.updateAuthorName.getText().toString().trim();
             String issueDate = mBinding.issueDate.getText().toString().trim();
@@ -28,6 +30,18 @@ public class CreateOrUpdateBookActivity extends AppCompatActivity {
 
             mLibraryData.saveLibraryData(new BookDetails(name,authorName,issueDate,totalPages));
             finish();
+        });
+        mBinding.updateBtn.setOnClickListener(v -> {
+            String name = mBinding.updateAuthorName.getText().toString().trim();
+            String authorName = mBinding.updateAuthorName.getText().toString().trim();
+            String issueDate = mBinding.issueDate.getText().toString().trim();
+            String totalPages = mBinding.totalPages.getText().toString().trim();
+            boolean isUpdate = mLibraryData.updateData( book.toString(),name,authorName,issueDate,totalPages);
+            if(isUpdate == true){
+                Toast.makeText(this, "Data is updated", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this, "Data is not updated", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

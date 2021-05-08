@@ -10,10 +10,6 @@ public class BookDetails extends Book implements Serializable {
         super(bookName, totalPages, issueDate, authorName);
     }
 
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
         this.id = id;
     }

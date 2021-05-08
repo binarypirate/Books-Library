@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Library</string>
+    <string name="deleteContact">Delete data</string>
+    <string name="yes">Yes</string>
 </resources>

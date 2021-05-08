@@ -1,5 +1,6 @@
 package com.example.library.util;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -54,6 +55,23 @@ public class LibraryData {
         }
         return bookDetails;
     }
+    public String deleteData(String id){
+        SQLiteDatabase database = this.booksRecordDataBase;
+        return String.valueOf(database.delete("DATA_RECORD_TABLE","id =?",new String[]{id}) > 0);
+    }
+
+    public boolean updateData(String id,String book_name,String total_pages, String author_name, String issue_date){
+        SQLiteDatabase database = this.booksRecordDataBase;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(book_name, book_name);
+        contentValues.put(issue_date, issue_date);
+        contentValues.put(author_name, author_name);
+        contentValues.put(id, id);
+        contentValues.put(total_pages, total_pages);
+        database.update(DATA_RECORD_TABLE, contentValues, id = String.valueOf('1'), new  String[]{ id });
+        return  true;
+    }
+
     public static LibraryData buildWith(SQLiteDatabase historyDatabase) {
         LibraryData data = new LibraryData(historyDatabase);
         data.createBooksDataTable();
