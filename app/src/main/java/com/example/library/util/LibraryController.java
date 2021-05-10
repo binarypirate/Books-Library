@@ -52,14 +52,16 @@ public class LibraryController {
         return bookDetail;
     }
 
-    public List<BookDetails> getBookDetailsData(){
+    public List<BookDetails> getBookDetailsData(String filter) {
         Cursor cursor = booksRecordDataBase.rawQuery("SELECT * FROM " + DATA_RECORD_TABLE , null);
         List<BookDetails> bookDetails = new ArrayList<>();
         while (cursor.moveToNext()){
             BookDetails bookDetail = new BookDetails(cursor.getString(1), cursor.getString(2),cursor.getString(4)
             ,cursor.getString(3));
             bookDetail.setId(cursor.getString(0));
-            bookDetails.add(bookDetail);
+            if (bookDetail.bookName.contains(filter) || bookDetail.authorName.contains(filter)) {
+                bookDetails.add(bookDetail);
+            }
         }
         return bookDetails;
     }
