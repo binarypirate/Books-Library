@@ -10,19 +10,26 @@ public class BookDetails extends Book implements Serializable {
         super(bookName, totalPages, issueDate, authorName);
     }
 
+    public BookDetails(String id, String bookName, String totalPages, String issueDate, String authorName) {
+        super(bookName, totalPages, issueDate, authorName);
+        this.id = id;
+    }
+
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return "BookDetails{" +
-                "id='" + id + "\'," +
-                "bookName='" + bookName + '\'' +
-                ", totalPages='" + totalPages + '\'' +
-                ", issueDate='" + issueDate + '\'' +
-                ", authorName='" + authorName + '\'' +
-                '}';
+        return "BookDetail: \n" +
+                "Book Name: " + bookName + "\n" +
+                "Total Pages: " + totalPages + "\n" +
+                "Issue Date: " + issueDate + "\n" +
+                "Author Name: " + authorName;
     }
 }

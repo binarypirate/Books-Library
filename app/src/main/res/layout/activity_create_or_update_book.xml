@@ -46,6 +46,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:inputType="number"
         android:ems="10"
         android:hint="enter total pages"
         app:layout_constraintEnd_toEndOf="@+id/update_book_name"
@@ -70,6 +71,7 @@
         android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="enter issue date"
+        android:inputType="number"
         app:layout_constraintEnd_toEndOf="@+id/update_book_name"
         app:layout_constraintStart_toStartOf="@+id/update_book_name"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -100,7 +102,6 @@
         android:id="@+id/saveBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:text="save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -111,9 +112,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="update"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/saveBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/saveBtn" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

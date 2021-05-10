@@ -1,15 +1,15 @@
 package com.example.library.util;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.library.model.BookDetails;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LibraryData {
+public class LibraryController {
     public final static String LIBRARY_DATA = "lb";
     private  final String DATA_RECORD_TABLE = "DATA";
 
@@ -21,14 +21,13 @@ public class LibraryData {
 
     private final SQLiteDatabase booksRecordDataBase;
 
-    public LibraryData(SQLiteDatabase booksRecordDataBase) {
+    public LibraryController(SQLiteDatabase booksRecordDataBase) {
         this.booksRecordDataBase = booksRecordDataBase;
     }
 
-
     private void createBooksDataTable(){
-        String query = "CREATE TABLE IF NOT EXISTS " + DATA_RECORD_TABLE + "("
-                +id + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+        String query = "CREATE TABLE IF NOT EXISTS " + DATA_RECORD_TABLE + "(" +
+                id + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 book_name + " VARCHAR(100) NOT NULL," +
                 total_pages + " VARCHAR(5) NOT NULL, " +
                 author_name + " VARCHAR(100) NOT NULL,"+
@@ -44,36 +43,45 @@ public class LibraryData {
         booksRecordDataBase.execSQL(query);
     }
 
+    public BookDetails getBookDetail(String id) {
+        Cursor cursor = booksRecordDataBase.rawQuery("SELECT * FROM " + DATA_RECORD_TABLE + " WHERE id='"+id+"'", null);
+        cursor.moveToFirst();
+        BookDetails bookDetail = new BookDetails(cursor.getString(1), cursor.getString(2),cursor.getString(4)
+                ,cursor.getString(3));
+        bookDetail.setId(cursor.getString(0));
+        return bookDetail;
+    }
+
     public List<BookDetails> getBookDetailsData(){
         Cursor cursor = booksRecordDataBase.rawQuery("SELECT * FROM " + DATA_RECORD_TABLE , null);
         List<BookDetails> bookDetails = new ArrayList<>();
         while (cursor.moveToNext()){
-            BookDetails bookDetail = new BookDetails(cursor.getString(1), cursor.getString(2),cursor.getString(3)
-            ,cursor.getString(4));
+            BookDetails bookDetail = new BookDetails(cursor.getString(1), cursor.getString(2),cursor.getString(4)
+            ,cursor.getString(3));
             bookDetail.setId(cursor.getString(0));
             bookDetails.add(bookDetail);
         }
         return bookDetails;
     }
-    public String deleteData(String id){
-        SQLiteDatabase database = this.booksRecordDataBase;
-        return String.valueOf(database.delete("DATA_RECORD_TABLE","id =?",new String[]{id}) > 0);
+
+    public void deleteData(BookDetails book) {
+        String query = "DELETE FROM " + DATA_RECORD_TABLE + " WHERE id='"+book.getId()+"'";
+        booksRecordDataBase.execSQL(query);
     }
 
-    public boolean updateData(String id,String book_name,String total_pages, String author_name, String issue_date){
-        SQLiteDatabase database = this.booksRecordDataBase;
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(book_name, book_name);
-        contentValues.put(issue_date, issue_date);
-        contentValues.put(author_name, author_name);
-        contentValues.put(id, id);
-        contentValues.put(total_pages, total_pages);
-        database.update(DATA_RECORD_TABLE, contentValues, id = String.valueOf('1'), new  String[]{ id });
-        return  true;
+    public void updateData(BookDetails book) {
+        String query = "UPDATE " + DATA_RECORD_TABLE + " SET " +
+                book_name + "='" + book.bookName  + "', " +
+                total_pages + "='" + book.totalPages  + "', " +
+                author_name + "='" + book.authorName  + "', " +
+                issue_date + "='" + book.issueDate  + "' " +
+                "WHERE " + id + "='"+book.getId()+"'";
+        Log.d("UpdateQuery", "updateData: "+ query);
+        booksRecordDataBase.execSQL(query);
     }
 
-    public static LibraryData buildWith(SQLiteDatabase historyDatabase) {
-        LibraryData data = new LibraryData(historyDatabase);
+    public static LibraryController buildWith(SQLiteDatabase historyDatabase) {
+        LibraryController data = new LibraryController(historyDatabase);
         data.createBooksDataTable();
         return data;
     }

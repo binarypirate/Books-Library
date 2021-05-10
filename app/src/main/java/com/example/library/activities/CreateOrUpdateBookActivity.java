@@ -3,15 +3,17 @@ package com.example.library.activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.library.databinding.ActivityCreateOrUpdateBookBinding;
 import com.example.library.model.BookDetails;
-import com.example.library.util.LibraryData;
+import com.example.library.util.LibraryController;
 
 public class CreateOrUpdateBookActivity extends AppCompatActivity {
     ActivityCreateOrUpdateBookBinding mBinding;
-    LibraryData mLibraryData;
+    LibraryController mLibraryController;
+    BookDetails book = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,29 +21,36 @@ public class CreateOrUpdateBookActivity extends AppCompatActivity {
         mBinding = ActivityCreateOrUpdateBookBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-        mLibraryData = LibraryData.buildWith(openOrCreateDatabase(LibraryData.LIBRARY_DATA, MODE_PRIVATE, null));
-        BookDetails book = (BookDetails) getIntent().getSerializableExtra("book");
+        mLibraryController = LibraryController.buildWith(openOrCreateDatabase(LibraryController.LIBRARY_DATA, MODE_PRIVATE, null));
+
+        if (getIntent().hasExtra("book")) {
+            book = (BookDetails) getIntent().getSerializableExtra("book");
+            mBinding.saveBtn.setVisibility(View.GONE);
+            mBinding.updateBookName.setText(book.bookName);
+            mBinding.totalPages.setText(book.totalPages);
+            mBinding.issueDate.setText(book.issueDate);
+            mBinding.updateAuthorName.setText(book.authorName);
+        } else {
+            mBinding.updateBtn.setVisibility(View.GONE);
+        }
 
         mBinding.saveBtn.setOnClickListener(v -> {
-            String name = mBinding.updateAuthorName.getText().toString().trim();
+            String name = mBinding.updateBookName.getText().toString().trim();
             String authorName = mBinding.updateAuthorName.getText().toString().trim();
             String issueDate = mBinding.issueDate.getText().toString().trim();
             String totalPages = mBinding.totalPages.getText().toString().trim();
-
-            mLibraryData.saveLibraryData(new BookDetails(name,authorName,issueDate,totalPages));
+            mLibraryController.saveLibraryData(new BookDetails(name, totalPages, issueDate, authorName));
             finish();
         });
+
         mBinding.updateBtn.setOnClickListener(v -> {
-            String name = mBinding.updateAuthorName.getText().toString().trim();
+            String name = mBinding.updateBookName.getText().toString().trim();
             String authorName = mBinding.updateAuthorName.getText().toString().trim();
             String issueDate = mBinding.issueDate.getText().toString().trim();
             String totalPages = mBinding.totalPages.getText().toString().trim();
-            boolean isUpdate = mLibraryData.updateData( book.toString(),name,authorName,issueDate,totalPages);
-            if(isUpdate == true){
-                Toast.makeText(this, "Data is updated", Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(this, "Data is not updated", Toast.LENGTH_SHORT).show();
-            }
+            book = new BookDetails(book.getId(), name, totalPages, issueDate, authorName);
+            mLibraryController.updateData(book);
+            Toast.makeText(this, "Data is updated", Toast.LENGTH_SHORT).show();
         });
     }
 }

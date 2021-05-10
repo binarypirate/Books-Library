@@ -1,25 +1,19 @@
 package com.example.library.activities;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.widget.Toast;
 
-import com.example.library.R;
 import com.example.library.databinding.ActivityDetailsBinding;
 import com.example.library.model.BookDetails;
-import com.example.library.util.LibraryData;
+import com.example.library.util.LibraryController;
 
 public class DetailsActivity extends AppCompatActivity {
     ActivityDetailsBinding mBinding;
 
-    LibraryData mLibraryData;
-
-    
+    LibraryController mLibraryController;
+    BookDetails mBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,28 +21,24 @@ public class DetailsActivity extends AppCompatActivity {
         mBinding = ActivityDetailsBinding.inflate(getLayoutInflater());
         setContentView(mBinding.getRoot());
 
-
-        BookDetails book = (BookDetails) getIntent().getSerializableExtra("book");
-
-//        String desplayData = "";
-//        for (int data : book.){
-//            desplayData = desplayData + data + "\n";
-//        }
-
-        mBinding.bookName.setText(book.bookName + "\n" + book.issueDate + "\n" + book.totalPages
-        + "\n" + book.authorName);
-        Toast.makeText(this, book.toString(), Toast.LENGTH_LONG).show();
-
+        mLibraryController = LibraryController.buildWith(openOrCreateDatabase(LibraryController.LIBRARY_DATA, MODE_PRIVATE, null));
+        mBook = (BookDetails) getIntent().getSerializableExtra("book");
 
         mBinding.deleteBtn.setOnClickListener(v -> {
-            mLibraryData.deleteData(book.toString());
-            Toast.makeText(this, "deleted", Toast.LENGTH_SHORT).show();
+            mLibraryController.deleteData(mBook);
+            finish();
         });
 
         mBinding.editBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(DetailsActivity.this, CreateOrUpdateBookActivity.class);
+            Intent intent = new Intent(this, CreateOrUpdateBookActivity.class);
+            intent.putExtra("book", mBook);
             startActivity(intent);
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mBinding.bookName.setText(mLibraryController.getBookDetail(mBook.getId()).toString());
+    }
 }

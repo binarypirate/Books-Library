@@ -8,14 +8,14 @@ import android.os.Bundle;
 
 import com.example.library.model.BookDetails;
 import com.example.library.adapter.LibraryAdapter;
-import com.example.library.util.LibraryData;
+import com.example.library.util.LibraryController;
 import com.example.library.adapter.OnBookStoreCardClickListener;
 import com.example.library.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity implements OnBookStoreCardClickListener {
     ActivityMainBinding mBinding;
     LibraryAdapter mLibraryAdapter;
-    LibraryData mLibraryData;
+    LibraryController mLibraryController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements OnBookStoreCardCl
 
         mBinding.addFloatingBar.setOnClickListener(v -> startActivity(new Intent(this, CreateOrUpdateBookActivity.class)));
 
-        mLibraryData = LibraryData.buildWith(openOrCreateDatabase(LibraryData.LIBRARY_DATA, MODE_PRIVATE, null));
+        mLibraryController = LibraryController.buildWith(openOrCreateDatabase(LibraryController.LIBRARY_DATA, MODE_PRIVATE, null));
         mLibraryAdapter = new LibraryAdapter(this);
 
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -42,6 +42,6 @@ public class MainActivity extends AppCompatActivity implements OnBookStoreCardCl
     @Override
     protected void onResume() {
         super.onResume();
-        mLibraryAdapter.setBooks(mLibraryData.getBookDetailsData());
+        mLibraryAdapter.setBooks(mLibraryController.getBookDetailsData());
     }
 }
